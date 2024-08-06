@@ -76,7 +76,10 @@
 			<optional>true</optional>
 		</dependency>
 		
-		
+		<dependency>
+    		<groupId>org.flywaydb</groupId>
+    		<artifactId>flyway-mysql</artifactId>
+		</dependency>
 
 		
 		
