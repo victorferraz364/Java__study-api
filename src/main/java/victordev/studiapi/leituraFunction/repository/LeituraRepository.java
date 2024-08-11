@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import victordev.studiapi.leituraFunction.model.Leitura;
 
+
 @Repository
 public interface LeituraRepository extends JpaRepository<Leitura, Long>{
 

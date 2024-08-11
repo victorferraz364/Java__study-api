@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import jakarta.persistence.EntityNotFoundException;
+
 import victordev.studiapi.leituraFunction.model.Livro;
 import victordev.studiapi.leituraFunction.repository.LivroRepository;
 import victordev.studiapi.leituraFunction.service.LivroService;
@@ -38,33 +37,26 @@ public class LivroController {
 
 	@GetMapping("/{livroId}")
 	public Livro buscar(@PathVariable Long livroId) {
-			return livroService.buscarOufalhar(livroId);	
+			return livroService.buscarLivro(livroId);	
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Livro adicionar(@RequestBody Livro livro) {
-		return livroService.salvar(livro);
+		return livroService.salvarLivro(livro);
 	}
 
 	@PutMapping("/{livroId}")
 	public Livro atualizar(@PathVariable Long livroId, @RequestBody Livro livro) {
-
-		Livro livroatual = livroService.buscarOufalhar(livroId);
+		Livro livroatual = livroService.buscarLivro(livroId);
 		BeanUtils.copyProperties(livro, livroatual, "id");
-		return livroService.salvar(livroatual);
-
+		return livroService.salvarLivro(livroatual);
 	}
 
 	 @DeleteMapping("/{livroId}")
 	 @ResponseStatus(HttpStatus.NO_CONTENT)
 	 public void excluir(@PathVariable Long livroId) {
-		 try {
-			 livroService.excluir(livroId);
-		 }catch(EntityNotFoundException e) {
-			 // NÃO FUNCIONA
-			 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado com ID: " + livroId);
-		 }
-	    
+		 livroService.excluir(livroId);
+  
 	 }
 }

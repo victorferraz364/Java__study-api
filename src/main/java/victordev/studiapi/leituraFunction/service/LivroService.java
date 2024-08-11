@@ -1,10 +1,9 @@
 package victordev.studiapi.leituraFunction.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
+import victordev.studiapi.leituraFunction.exception.EntidadeNaoEncontradaException;
 import victordev.studiapi.leituraFunction.model.Livro;
 import victordev.studiapi.leituraFunction.repository.LivroRepository;
 
@@ -14,18 +13,17 @@ public class LivroService {
 	@Autowired
 	private LivroRepository livroRepository;
 
-	public Livro salvar(Livro livro) {
-
+	public Livro salvarLivro(Livro livro) {
 		return livroRepository.save(livro);
 	}
 	
+	 public Livro buscarLivro(Long livroId) {
+	        return livroRepository.findById(livroId)
+	                .orElseThrow(() -> new EntidadeNaoEncontradaException("Livro não encontrado com ID: " + livroId));
+	 }
+	 
 	public void excluir(Long livroId) {
+			buscarLivro(livroId);
 			livroRepository.deleteById(livroId);
 	}
-	
-	//TIRAR AS RESPOSTAS DO SERVICE COM EXCPTIONS
-    public Livro buscarOufalhar(Long livroId) {
-        return livroRepository.findById(livroId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado com ID: " + livroId));
-    }
 }
