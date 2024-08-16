@@ -3,7 +3,7 @@ package victordev.studiapi.leituraFunction.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import victordev.studiapi.leituraFunction.exception.EntidadeNaoEncontradaException;
+import victordev.studiapi.leituraFunction.exception.LivroNaoEncontradoException;
 import victordev.studiapi.leituraFunction.model.Livro;
 import victordev.studiapi.leituraFunction.repository.LivroRepository;
 
@@ -19,7 +19,7 @@ public class LivroService {
 	
 	 public Livro buscarLivro(Long livroId) {
 	        return livroRepository.findById(livroId)
-	                .orElseThrow(() -> new EntidadeNaoEncontradaException("Livro não encontrado com ID: " + livroId));
+	                .orElseThrow(() -> new LivroNaoEncontradoException(livroId));
 	 }
 	 
 	public void excluir(Long livroId) {

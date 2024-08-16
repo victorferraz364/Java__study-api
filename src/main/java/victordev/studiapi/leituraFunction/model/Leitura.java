@@ -29,8 +29,9 @@ public class Leitura {
     private int ultimaPaginaLida;
     private int paginasRestantes;
     private LocalDate dataUltimaAtualizacao;
+    
     @ManyToOne
-    @JoinColumn(name = "livro_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Livro livro;
 	
 }

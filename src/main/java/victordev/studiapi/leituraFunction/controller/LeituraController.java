@@ -1,12 +1,10 @@
 package victordev.studiapi.leituraFunction.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import victordev.studiapi.leituraFunction.exception.LeituraNaoEncontradoException;
+import victordev.studiapi.leituraFunction.exception.LivroNaoEncontradoException;
+import victordev.studiapi.leituraFunction.exception.NegocioException;
 import victordev.studiapi.leituraFunction.model.Leitura;
 import victordev.studiapi.leituraFunction.repository.LeituraRepository;
+import victordev.studiapi.leituraFunction.service.LeituraService;
 
 @RestController
 @RequestMapping(value = "/leituras")
@@ -26,6 +28,9 @@ public class LeituraController {
 
 	@Autowired
 	private LeituraRepository leituraRepository;
+	
+	@Autowired
+	private LeituraService leituraService;
 
 
 	@GetMapping
@@ -34,41 +39,32 @@ public class LeituraController {
 	}
 
 	@GetMapping("/{leituraId}")
-	public ResponseEntity<Leitura> buscar(@PathVariable Long leituraId) {
-		Optional<Leitura> leitura = leituraRepository.findById(leituraId);
-
-		if (leitura.isPresent()) {
-			return ResponseEntity.ok(leitura.get());
-		}
-
-		return ResponseEntity.notFound().build();	
+	public Leitura buscar(@PathVariable Long leituraId) {
+		return leituraService.buscarLeitura(leituraId);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)		
 	public Leitura adicionar(@RequestBody Leitura leitura) {
-		return leituraRepository.save(leitura);
+		
+			return leituraService.salvarLivro(leitura);
+		
 	}
 
 	@PutMapping("/{leituraId}")
 	public Leitura atualizar(@PathVariable Long leituraId, @RequestBody Leitura leitura) {
-
-		Optional<Leitura> leituraAtual = leituraRepository.findById(leituraId);
-		BeanUtils.copyProperties(leitura, leituraAtual.get(), "id");
-		return leituraRepository.save(leituraAtual.get());
-
+		Leitura leituraAtuall = leituraService.buscarLeitura(leituraId);
+		BeanUtils.copyProperties(leitura, leituraAtuall, "id");
+		try {
+			return leituraService.salvarLivro(leituraAtuall);
+		} catch(LivroNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 
 	@DeleteMapping("/{leituraId}")
-	public ResponseEntity<Object> excluir(@PathVariable Long leituraId) {
-
-		Optional<Leitura> leitura = leituraRepository.findById(leituraId);
-
-		if (leitura.isPresent()) {
-			leituraRepository.deleteById(leituraId);
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.notFound().build();
+	public void excluir(@PathVariable Long leituraId) {
+		leituraService.excluir(leituraId);
 	}
 
 }
