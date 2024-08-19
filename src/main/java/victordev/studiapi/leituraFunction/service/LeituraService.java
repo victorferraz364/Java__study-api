@@ -3,6 +3,7 @@ package victordev.studiapi.leituraFunction.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import victordev.studiapi.leituraFunction.exception.EntidadeExistente;
 import victordev.studiapi.leituraFunction.exception.LeituraNaoEncontradoException;
 import victordev.studiapi.leituraFunction.model.Leitura;
 import victordev.studiapi.leituraFunction.model.Livro;
@@ -17,7 +18,11 @@ public class LeituraService {
 	@Autowired
 	private LivroService livroService;
 
-	public Leitura salvarLivro(Leitura leitura) {
+	public Leitura salvarLeitura(Leitura leitura) {
+		
+		if (leitura.getId() != null ) {
+			throw new EntidadeExistente();
+		}
 		
 		Long livroId = leitura.getLivro().getId();
 		
@@ -30,7 +35,7 @@ public class LeituraService {
 	
 	 public Leitura buscarLeitura(Long leituraId) {
 	        return leituraRepository.findById(leituraId)
-	                .orElseThrow(() -> new LeituraNaoEncontradoException("Leitura não encontrado com ID: " + leituraId));
+	                .orElseThrow(() -> new LeituraNaoEncontradoException(leituraId));
 	 }
 	 
 	public void excluir(Long leituraId) {

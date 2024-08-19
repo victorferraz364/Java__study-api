@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import victordev.studiapi.leituraFunction.exception.EntidadeNaoEncontradaException;
 import victordev.studiapi.leituraFunction.exception.LeituraNaoEncontradoException;
 import victordev.studiapi.leituraFunction.exception.LivroNaoEncontradoException;
 import victordev.studiapi.leituraFunction.exception.NegocioException;
@@ -47,7 +48,7 @@ public class LeituraController {
 	@ResponseStatus(HttpStatus.CREATED)		
 	public Leitura adicionar(@RequestBody Leitura leitura) {
 		
-			return leituraService.salvarLivro(leitura);
+			return leituraService.salvarLeitura(leitura);
 		
 	}
 
@@ -56,7 +57,7 @@ public class LeituraController {
 		Leitura leituraAtuall = leituraService.buscarLeitura(leituraId);
 		BeanUtils.copyProperties(leitura, leituraAtuall, "id");
 		try {
-			return leituraService.salvarLivro(leituraAtuall);
+			return leituraService.salvarLeitura(leituraAtuall);
 		} catch(LivroNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage());
 		}

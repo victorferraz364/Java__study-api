@@ -8,5 +8,8 @@ public class LeituraNaoEncontradoException extends EntidadeNaoEncontradaExceptio
 		super(mensagem);
 	}
 	
+	public LeituraNaoEncontradoException(Long leituraId) {
+		this("Leitura não encontrado com ID: " + leituraId);
+	}
 	
 }
