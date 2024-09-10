@@ -30,7 +30,9 @@ public class Leitura {
     private LocalDate dataInicio;
 	@JsonIgnore
     private LocalDate dataTermino;
+
     private int ultimaPaginaLida;
+
     private int paginasRestantes;
     @JsonIgnore
     private LocalDate dataUltimaAtualizacao;

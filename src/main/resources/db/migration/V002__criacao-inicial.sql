@@ -1,12 +1,4 @@
- create table livro (
-        id bigint not null auto_increment,
-        autor varchar(255),
-        nome varchar(255),
-        paginas_totais integer,
-        primary key (id)
-    ) engine=InnoDB;
-    
-    create table leitura (
+create table leitura (
         data_inicio date,
         data_termino date,
         data_ultima_atualizacao date,

@@ -17,10 +17,9 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
 import victordev.studiapi.global.exceptions.ProblemDetail.ProblemDetailBuilder;
+import victordev.studiapi.global.exceptions.regras.NegocioException;
 import victordev.studiapi.modules.leitura.exceptions.EntidadeEmUso;
 import victordev.studiapi.modules.leitura.exceptions.EntidadeExistente;
-import victordev.studiapi.modules.leitura.exceptions.EntidadeNaoEncontradaException;
-import victordev.studiapi.modules.leitura.exceptions.NegocioException;
 
 
 
@@ -110,8 +109,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> tratarNegocioException(NegocioException ex, WebRequest request) {
-		HttpStatus status = HttpStatus.NOT_FOUND;
-		ProblemTypeEnum problemType = ProblemTypeEnum.ENTIDADE_NAO_ENCONTRADA;
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		ProblemTypeEnum problemType = ProblemTypeEnum.REGRAS_API;
 		String detail = ex.getMessage();
 		ProblemDetail problem = createProblemBuilder(status, problemType, detail).build();
 		
