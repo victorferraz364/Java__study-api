@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import victordev.studiapi.global.exceptions.regras.NegocioException;
 import victordev.studiapi.modules.leitura.exceptions.LivroNaoEncontradoException;
-import victordev.studiapi.modules.leitura.exceptions.NegocioException;
 import victordev.studiapi.modules.leitura.model.Livro;
 import victordev.studiapi.modules.leitura.repository.LivroRepository;
 import victordev.studiapi.modules.leitura.service.LivroService;
@@ -45,6 +45,7 @@ public class LivroController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Livro adicionar(@RequestBody Livro livro) {
+		
 		try {
 			return livroService.salvarLivro(livro);
 		}catch(LivroNaoEncontradoException e) {

@@ -4,10 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum ProblemTypeEnum {
-
+	
 	ENTIDADE_EXISTENTE("/entidade-existente", "A entidade já existe com este id"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensível"),
 	ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
+	REGRAS_API("/erro-regras-negocio-api", "Alguma regra de negocio da api foi violada, cheque o retorno e revise sua requisição."),
 	ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso");
 	
 	private String title;

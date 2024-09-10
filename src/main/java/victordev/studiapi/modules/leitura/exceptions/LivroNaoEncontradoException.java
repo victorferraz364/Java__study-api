@@ -1,5 +1,7 @@
 package victordev.studiapi.modules.leitura.exceptions;
 
+import victordev.studiapi.global.exceptions.EntidadeNaoEncontradaException;
+
 public class LivroNaoEncontradoException extends EntidadeNaoEncontradaException{
 
 	private static final long serialVersionUID = 1L;
