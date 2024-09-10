@@ -3,9 +3,7 @@ package victordev.studiapi.modules.leitura.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import victordev.studiapi.global.exceptions.regras.IdManualException;
-import victordev.studiapi.global.exceptions.regras.NegocioException;
-import victordev.studiapi.modules.leitura.exceptions.EntidadeExistente;
+import victordev.studiapi.global.sevice.MultiValidadorService;
 import victordev.studiapi.modules.leitura.exceptions.LeituraNaoEncontradoException;
 import victordev.studiapi.modules.leitura.exceptions.LivroIdNuloException;
 import victordev.studiapi.modules.leitura.model.Leitura;
@@ -20,14 +18,15 @@ public class LeituraService {
 	
 	@Autowired
 	private LivroService livroService;
+	
+	@Autowired
+	private MultiValidadorService<Leitura> validadorService;
 
 	public Leitura salvarLeitura(Leitura leitura) {
 		
-		if (leitura.getId() != null ) {
-			throw new IdManualException();
-		}
+		validadorService.verificarIdnoPost(leitura, Leitura::getId);
 		
-		if (leitura.getLivro() == null || leitura.getLivro().getId() == null) {
+		if (leitura.getLivro().getId() == null) {
 	        throw new LivroIdNuloException();
 		}
 			

@@ -3,7 +3,7 @@ package victordev.studiapi.modules.study_register.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import victordev.studiapi.modules.leitura.exceptions.EntidadeExistente;
+import victordev.studiapi.global.sevice.MultiValidadorService;
 import victordev.studiapi.modules.study_register.exceptions.SessaoDeEstudosNaoEncontradaException;
 import victordev.studiapi.modules.study_register.model.SessaoDeEstudo;
 import victordev.studiapi.modules.study_register.repository.SessaoDeEstudoRepository;
@@ -14,8 +14,14 @@ public class SessaoDeEstudoService {
 	@Autowired
 	private SessaoDeEstudoRepository sessaoEstudorepository;
 	
-	public SessaoDeEstudo salvarSessaoDeEstudo(SessaoDeEstudo sessaoDeEstudo) {
+	@Autowired
+	private MultiValidadorService<SessaoDeEstudo> validadorService;
 	
+	
+	public SessaoDeEstudo salvarSessaoDeEstudo(SessaoDeEstudo sessaoDeEstudo) {
+
+		
+		validadorService.verificarIdnoPost(sessaoDeEstudo, SessaoDeEstudo::getId);
 			return sessaoEstudorepository.save(sessaoDeEstudo);
 		
 		
