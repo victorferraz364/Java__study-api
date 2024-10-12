@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ProblemTypeEnum {
-	
+	ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
 	ENTIDADE_EXISTENTE("/entidade-existente", "A entidade já existe com este id"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensível"),
 	ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),

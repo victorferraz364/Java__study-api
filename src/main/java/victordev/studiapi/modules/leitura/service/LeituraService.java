@@ -3,7 +3,7 @@ package victordev.studiapi.modules.leitura.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import victordev.studiapi.global.sevice.MultiValidadorService;
+import victordev.studiapi.global.utils.MultiValidadorService;
 import victordev.studiapi.modules.leitura.exceptions.LeituraNaoEncontradoException;
 import victordev.studiapi.modules.leitura.exceptions.LivroIdNuloException;
 import victordev.studiapi.modules.leitura.model.Leitura;
