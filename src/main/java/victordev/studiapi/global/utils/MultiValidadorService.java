@@ -1,4 +1,4 @@
-package victordev.studiapi.global.sevice;
+package victordev.studiapi.global.utils;
 
 import java.util.function.Function;
 

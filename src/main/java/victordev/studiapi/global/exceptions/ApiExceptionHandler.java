@@ -3,11 +3,13 @@ package victordev.studiapi.global.exceptions;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -26,6 +28,9 @@ import victordev.studiapi.modules.leitura.exceptions.EntidadeExistente;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	
+	public static final String MSG_ERRO_GENERICA_USUARIO_FINAL
+	= "Ocorreu um erro interno inesperado no sistema. Tente novamente e se "
+			+ "o problema persistir, entre em contato com o administrador do sistema.";
 	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e,
@@ -48,7 +53,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(e, problem, headers, status, request);
 		
 	}
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
+		ProblemTypeEnum problemType = ProblemTypeEnum.ERRO_DE_SISTEMA;
+	    String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+	        
+		ProblemDetail problem = createProblemBuilder(status, problemType, detail).build();
+		
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	  }
+	 
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;		
+		ProblemTypeEnum problemType = ProblemTypeEnum.ERRO_DE_SISTEMA;
+		String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
+
+		ex.printStackTrace();
+		
+		ProblemDetail problem = createProblemBuilder(status, problemType, detail).build();
+
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
+	
 	
 	private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException e,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
