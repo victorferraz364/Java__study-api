@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import victordev.studiapi.global.exceptions.EntidadeNaoEncontradaException;
 import victordev.studiapi.global.exceptions.regras.NegocioException;
-import victordev.studiapi.modules.leitura.exceptions.LeituraNaoEncontradoException;
 import victordev.studiapi.modules.leitura.exceptions.LivroNaoEncontradoException;
 import victordev.studiapi.modules.leitura.model.Leitura;
 import victordev.studiapi.modules.leitura.repository.LeituraRepository;

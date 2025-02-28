@@ -22,7 +22,7 @@ import victordev.studiapi.modules.study_register.repository.SessaoDeEstudoReposi
 import victordev.studiapi.modules.study_register.service.SessaoDeEstudoService;
 
 @RestController
-@RequestMapping(value = "/sessoes")
+@RequestMapping(value = "/sessions")
 public class SessaoDeEstudoController {
 	
 	@Autowired
@@ -31,8 +31,6 @@ public class SessaoDeEstudoController {
 	@Autowired
 	private SessaoDeEstudoRepository repository;
 
-	
-	
 	@GetMapping
 	public List<SessaoDeEstudo> listar() {
 		return repository.findAll();
@@ -43,7 +41,6 @@ public class SessaoDeEstudoController {
 		return sessaoService.buscarSessaoDeEstudo(sessaoEstudoId);
 	}
 	
-
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)		
 	public SessaoDeEstudo adicionar(@RequestBody SessaoDeEstudo sessaoDeEstudo) {
@@ -52,10 +49,10 @@ public class SessaoDeEstudoController {
 		
 	}
 	
-	@PutMapping("{sessaoId}")
-	public SessaoDeEstudo atualizar(@PathVariable Long sessaoId, @RequestBody SessaoDeEstudo sessaoDeEstudo) {
+	@PutMapping("{sessionId}")
+	public SessaoDeEstudo atualizar(@PathVariable Long sessionId, @RequestBody SessaoDeEstudo sessaoDeEstudo) {
 	
-		SessaoDeEstudo sessaoAtual = sessaoService.buscarSessaoDeEstudo(sessaoId);
+		SessaoDeEstudo sessaoAtual = sessaoService.buscarSessaoDeEstudo(sessionId);
 		BeanUtils.copyProperties(sessaoDeEstudo, sessaoAtual, "id");
 		try {
 			return sessaoService.salvarSessaoDeEstudo(sessaoAtual);
@@ -67,9 +64,9 @@ public class SessaoDeEstudoController {
 		
 	}
 	
-	@DeleteMapping("/{sessaoId}")
-	public void excluir(@PathVariable Long sessaoId) {
-		sessaoService.excluir(sessaoId);
+	@DeleteMapping("/{sessionId}")
+	public void excluir(@PathVariable Long sessionId) {
+		sessaoService.excluir(sessionId);
 	}
 
 	
